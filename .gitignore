@@ -32,3 +32,9 @@
 *.app
 
 *.idea
+*.vs
+*.tlog
+*.lastbuildstate
+unsuccessfulbuild
+*.FileListAbsolute.txt
+*.idb
