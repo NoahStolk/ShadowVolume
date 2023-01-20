@@ -4,7 +4,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#if MISSING
 #include <AntTweakBar.h>
+#endif
 
 #include "Shader.h"
 #include "Camera.h"
@@ -14,7 +16,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#if MISSING
 #include <SOIL.h>
+#endif
 #include <iostream>
 
 GLuint screenWidth = 1200, screenHeight = 800;
@@ -41,12 +45,15 @@ namespace {
 		const double xpos, const double ypos)
 	{
 		gCursorPositionY = ypos;
+#if MISSING
 		if (!TwEventMousePosGLFW(static_cast<int>(xpos), static_cast<int>(ypos)))
 		{
 			mouse_callback(window, xpos, ypos);
 		}
+#endif
 	}
 
+#if MISSING
 	void keyCallback(GLFWwindow *const window, const int key,
 		const int scancode, const int action, const int mods)
 	{
@@ -72,7 +79,7 @@ namespace {
 			// gApplication.onMouseButton(button, action, mods);
 		}
 	}
-
+#endif
 }
 
 int main()
@@ -92,10 +99,11 @@ int main()
 
 	// Funzioni Callback
 	glfwSetCursorPosCallback(window, cursorPositionCallback);
+#if MISSING
 	glfwSetKeyCallback(window, keyCallback);
 	glfwSetScrollCallback(window, scrollCallback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
-
+#endif
 
 	// GLEW
 	glewExperimental = GL_TRUE;
@@ -271,11 +279,6 @@ int main()
 	glBindVertexArray(0);
 	//
 	
-	// Initialize AntTweakBar
-	TwInit(TW_OPENGL_CORE, NULL);
-	TwWindowSize(screenWidth, screenHeight);
-	// Create a tweak bar
-	TwBar *bar;
 	float speed = 1.0f; 
 	float height = 1.75f;
 	float distance = 4.0f;
@@ -284,6 +287,12 @@ int main()
 	int showFrustum = 0;
 	float time = 0.0f;
 	float fps = 60.0f;
+	#if MISSING
+	// Initialize AntTweakBar
+	TwInit(TW_OPENGL_CORE, NULL);
+	TwWindowSize(screenWidth, screenHeight);
+	// Create a tweak bar
+	TwBar *bar;
 	bar = TwNewBar("ShadowVolumeOption");
 	TwAddVarRW(bar, "Show Edge", TW_TYPE_BOOL32, &showEdge, "label='Show Edge' group=Geometry");
 	TwAddVarRW(bar, "Show Frustum", TW_TYPE_BOOL32, &showFrustum, "label='Show Frustum' group=Geometry");
@@ -302,6 +311,7 @@ int main()
 	TwDefine(" ShadowVolumeOption size='280 230' ");
 	TwDefine(" GLOBAL fontsize=3 ");
 	TwDefine(" ShadowVolumeOption refresh=0.1 ");
+#endif
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -418,9 +428,9 @@ int main()
 		glBindVertexArray(0);
 		glDepthFunc(GL_LESS);
 		//
-
+#if MISSING
 		TwDraw();
-
+#endif
 		glfwSwapBuffers(window);
 
 		angle += deltaTime * speed;
@@ -432,7 +442,9 @@ int main()
 		lightPosition = glm::vec4(3.0f * glm::vec3(cosf(angle) * distance, height, sinf(angle) * distance), 1.0f);
 	}
 
+#if MISSING
 	TwTerminate();
+#endif
 	glfwTerminate();
 	return 0;
 }
